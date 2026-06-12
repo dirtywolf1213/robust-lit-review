@@ -1,0 +1,8 @@
+/* EN / 繁中 language toggle (added by build_glp1_site.py) */
+.lang-switch{display:inline-flex;gap:2px;margin-left:8px;background:rgba(255,255,255,.16);
+  border-radius:999px;padding:3px}
+.lang-btn{border:0;background:transparent;color:inherit;padding:6px 12px;border-radius:999px;
+  cursor:pointer;font-size:13px;font-weight:700;line-height:1}
+.lang-btn.is-active{background:#fff;color:#0e3a52;box-shadow:0 1px 3px rgba(16,33,54,.16)}
+body.lang-zh .lang-en{display:none}
+body.lang-en .lang-zh{display:none}
