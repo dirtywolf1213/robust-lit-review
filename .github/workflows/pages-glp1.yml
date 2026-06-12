@@ -1,0 +1,48 @@
+name: Deploy GLP-1 Review to GitHub Pages
+
+# Publishes the pre-built static site at output-glp1/site/ to GitHub Pages.
+# The site is committed to the repo (it is a static export from the
+# blueprint renderer), so no build step is required here — we just upload it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "output-glp1/site/**"
+      - ".github/workflows/pages-glp1.yml"
+  workflow_dispatch:
+
+# Allow the workflow to publish to Pages via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Ensure .nojekyll
+        run: touch output-glp1/site/.nojekyll
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output-glp1/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
